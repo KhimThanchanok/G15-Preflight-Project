@@ -1,0 +1,46 @@
+name: g15t
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: g15-db
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - g15-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - g15-net
+  backend:
+    depends_on:
+      - postgres
+    image: konlew/g15-backend:latest
+    container_name: g15-backend
+    ports:
+      - ${PORT}:3000
+    networks:
+      - g15-net
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_APP_USER=${POSTGRES_APP_USER}
+      - POSTGRES_APP_PASSWORD=${POSTGRES_APP_PASSWORD}
+  frontend:
+    depends_on:
+      - backend
+    image: konlew/g15-frontend:latest
+    container_name: g15-frontend
+    ports:
+      - ${NGINX_PORT}:4444
+    networks:
+      - g15-net
+    environment:
+      - NGINX_PROXY=${NGINX_PROXY}
+      - NGINX_PORT=${NGINX_PORT}
+volumes:
+  g15-data:
+networks:
+  g15-net:
