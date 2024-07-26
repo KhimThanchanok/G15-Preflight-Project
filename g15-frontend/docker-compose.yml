@@ -1,0 +1,15 @@
+name: g15t # You can also change this to another name to avoid warning with existing group. 
+services:
+  frontend:
+    container_name: g15-frontend
+    build: .
+    ports:
+      - ${NGINX_PORT}:4444
+    networks:
+      - g15t_g15-net
+    environment:
+      - NGINX_PROXY=${NGINX_PROXY}
+      - NGINX_PORT=${NGINX_PORT}
+networks:
+  g15t_g15-net: # Check by using `docker network ls` command
+    external: true
