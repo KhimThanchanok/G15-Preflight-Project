@@ -145,6 +145,7 @@ function App() {
                   onClick={() => setPriority("low")}
                   style={{ backgroundColor: priority === "low" ? '#ABFC88' : '#FFFFFF', color: 'black', marginRight: '1rem' }}
                   className="btn"
+                  data-cy="input-priority-low" 
                 >
                   Low
                 </button>
@@ -152,6 +153,7 @@ function App() {
                   onClick={() => setPriority("medium")}
                   style={{ backgroundColor: priority === "medium" ? '#FFF894' : '#FFFFFF', color: 'black', marginRight: '1rem' }}
                   className="btn"
+                  data-cy="input-priority-medium" 
                 >
                   Medium
                 </button>
@@ -159,6 +161,7 @@ function App() {
                   onClick={() => setPriority("high")}
                   style={{ backgroundColor: priority === "high" ? '#FF9494' : '#FFFFFF', color: 'black' }}
                   className="btn"
+                  data-cy="input-priority-high" 
                 >
                   High
                 </button>
@@ -248,6 +251,7 @@ function App() {
                 value={selectedPriority}
                 onChange={(e) => setSelectedPriority(e.target.value)}
                 className="form-select"
+                data-cy="todo-priority"
               >
                 <option value="all">All</option>
                 <option value="low">Low</option>
