@@ -181,57 +181,64 @@ function App() {
               )}
             </div>
             <Row xs={1} md={2} lg={3} className="g-4" data-cy="todo-item-wrapper">
-              {todos
-                .filter((item) => selectedPriority === "all" || item.priority === selectedPriority)
-                .sort(compareDate)
-                .map((item) => {
-                  const { date, time } = formatDateTime(item.createdAt);
-                  return (
-                    <Col key={item.id}>
-                      <Card className="text-dark" style={{ backgroundColor: getCardColor(item.priority) }}>
-                        <Card.Body>
-                          <div className="d-flex justify-content-between">
-                            <div>
-                              <Card.Title>{item.todoHeader}</Card.Title>
-                              <Card.Subtitle className="mb-2 text-muted">{date} at {time}</Card.Subtitle>
-                              <Card.Text style={{ whiteSpace: 'normal', wordBreak: 'break-word',  color: 'black' }}>
-                                {item.todoText}
-                              </Card.Text>
-                            </div>
-                            <div className="d-flex flex-column justify-content-start">
-                              <button
-                                className="btn mb-2"
-                                onClick={() => {
-                                  setMode("EDIT");
-                                  setCurTodoId(item.id);
-                                  setInputText(item.todoText);
-                                  setTodoHeader(item.todoHeader);
-                                  setPriority(item.priority);
-                                }}
-                                data-cy="todo-item-update"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
-                                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                </svg>
-                              </button>
-                              <button
-                                className="btn"
-                                onClick={() => handleDelete(item.id)}
-                                data-cy="todo-item-delete"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                                </svg>
-                              </button>
-                            </div>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  );
-                })}
-            </Row>
+  {todos
+    .filter((item) => selectedPriority === "all" || item.priority === selectedPriority)
+    .sort(compareDate)
+    .map((item) => {
+      const { date, time } = formatDateTime(item.createdAt);
+      return (
+        <Col key={item.id}>
+          <Card
+            className="text-dark"
+            style={{ backgroundColor: getCardColor(item.priority) }}
+            data-cy={`todo-item-${item.id}`}
+          >
+            <Card.Body>
+              <div className="d-flex justify-content-between">
+                <div>
+                  <Card.Title>{item.todoHeader}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {date} at {time}
+                  </Card.Subtitle>
+                  <Card.Text style={{ whiteSpace: "normal", wordBreak: "break-word", color: "black" }}>
+                    {item.todoText}
+                  </Card.Text>
+                </div>
+                <div className="d-flex flex-column justify-content-start">
+                  <button
+                    className="btn mb-2"
+                    onClick={() => {
+                      setMode("EDIT");
+                      setCurTodoId(item.id);
+                      setInputText(item.todoText);
+                      setTodoHeader(item.todoHeader);
+                      setPriority(item.priority);
+                    }}
+                    data-cy="todo-item-update"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
+                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg>
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => handleDelete(item.id)}
+                    data-cy="todo-item-delete"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
+                      <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      );
+    })}
+</Row>
+
           </main>
           <aside style={{ width: '200px', backgroundColor: '#EED9C4', padding: '1.3rem', borderRadius: '8px' }}>
             <div style={{ marginBottom: '1rem' }}>

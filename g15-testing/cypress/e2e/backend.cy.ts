@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 before(() => {
   const url = Cypress.env("BACKEND_URL");
   cy.request({
@@ -17,7 +19,6 @@ describe("Backend", () => {
       method: "GET",
       url: `${url}/todo`,
     }).then((res) => {
-      // cy.log(JSON.stringify(res));
       expect(res.headers).to.not.have.property("access-control-allow-origin");
     });
   });
@@ -38,12 +39,13 @@ describe("Backend", () => {
       method: "PUT",
       url: `${url}/todo`,
       body: {
+        todoHeader: "Header",
         todoText: "New Todo",
+        priority: "low",
       },
     }).then((res) => {
-      cy.log(JSON.stringify(res.body));
       expect(res.body).to.have.all.keys("msg", "data");
-      expect(res.body.data).to.all.keys("id", "todoText");
+      expect(res.body.data).to.have.all.keys("id", "todoText");
     });
   });
 
@@ -54,7 +56,9 @@ describe("Backend", () => {
       method: "PUT",
       url: `${url}/todo`,
       body: {
+        todoHeader: "Header",
         todoText: "New Todo",
+        priority: "low",
       },
     }).then((res) => {
       const todo = res.body.data;
@@ -65,9 +69,8 @@ describe("Backend", () => {
           id: todo.id,
         },
       }).then((res) => {
-        cy.log(JSON.stringify(res.body));
         expect(res.body).to.have.all.keys("msg", "data");
-        expect(res.body.data).to.all.keys("id");
+        expect(res.body.data).to.have.key("id");
       });
     });
   });
@@ -79,7 +82,9 @@ describe("Backend", () => {
       method: "PUT",
       url: `${url}/todo`,
       body: {
+        todoHeader: "Header",
         todoText: "New Todo",
+        priority: "low",
       },
     }).then((res) => {
       const todo = res.body.data;
@@ -90,17 +95,18 @@ describe("Backend", () => {
         body: {
           id: todo.id,
           todoText: "Updated Text",
+          priority: "medium",
         },
       }).then((res) => {
         cy.request({
           method: "GET",
           url: `${url}/todo`,
         }).then(function (res) {
-          // Notice that arrow function is not used here due to "this" issue
           const currentId = this.currentId; // Get value from context
           const todos = res.body;
           const todo = todos.find((el) => el.id === currentId);
           expect(todo.todoText).to.equal("Updated Text");
+          expect(todo.priority).to.equal("medium");
         });
       });
     });
