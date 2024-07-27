@@ -160,7 +160,7 @@ function App() {
                   style={{ backgroundColor: priority === "high" ? '#FF9494' : '#FFFFFF', color: 'black' }}
                   className="btn"
                 >
-                  Highy
+                  High
                 </button>
               </div>
               <button 
