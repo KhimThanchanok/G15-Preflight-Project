@@ -7,7 +7,7 @@
 
 # Setup database
 
-- `docker exec -it [DB_CONTAINER_NAME] bash`
+- `docker exec -it g15-db bash`
 - `psql -U postgres -d mydb`
 - Don't forget to change the password.
 
@@ -21,6 +21,6 @@ GRANT ALL ON SCHEMA public TO appuser;
 GRANT ALL ON SCHEMA drizzle TO appuser;
 ```
 
-- `docker exec -it [BACKEND_CONTAINER_NAME] sh`
+- `docker exec -it g15-backend sh`
 - `npm run db:generate`
 - `npm run db:migrate`
